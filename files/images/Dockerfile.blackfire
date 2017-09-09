@@ -1,0 +1,32 @@
+FROM ubuntu:16.04
+
+MAINTAINER Mike Hartl <mike_hartl@gmx.de>
+
+ENV TERM=xterm
+
+RUN apt-get update
+RUN apt-get -y upgrade
+
+RUN apt-get install -y --fix-missing wget php7.0 php7.0-fpm nano
+RUN apt-get update --fix-missing
+
+RUN wget -O - https://packagecloud.io/gpg.key | apt-key add -
+RUN echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
+RUN apt-get update
+
+RUN apt-get install -y blackfire-agent blackfire-php
+
+COPY ./files/etc/blackfire/agent.ini /etc/blackfire/agent
+COPY ./files/etc/blackfire/client.ini /.blackfire.ini
+
+# blackfire script
+COPY ./files/scripts/blackfire-configer.sh /blackfire-configer.sh
+RUN chmod 777 /blackfire-configer.sh
+
+# entrypoint script
+COPY ./files/scripts/entrypoint.sh /entrypoint.sh
+RUN chmod 777 /entrypoint.sh
+
+WORKDIR /var/www/app
+
+ENTRYPOINT ["/entrypoint.sh"]

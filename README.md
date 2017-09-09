@@ -1,2 +1,2 @@
 # blackfire-phpfpm
-php-fpm container with blackfire-agent
+php-fpm 7.0 container with blackfire-agent

@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+    php:
+      build:
+        context: .
+        dockerfile: files/images/Dockerfile.blackfire
+      image: thorewalez/blackfire-php-fpm:latest
+      environment:
+        BLACKFIRE_CLIENT_ID: YOUR_CLIENT_ID
+        BLACKFIRE_CLIENT_TOKEN: YOUR_CLIENT_TOKEN
+        # Exposes the host BLACKFIRE_SERVER_ID and TOKEN environment variables.
+        BLACKFIRE_SERVER_ID: YOUR_SERVER_ID
+        BLACKFIRE_SERVER_TOKEN: YOUR_SERVER_TOKEN
+      volumes:
+        - ./src/:/var/www/app
+      tty: true
+      networks:
+        - staging-space
+
+networks:
+  staging-space:
+    driver: bridge
