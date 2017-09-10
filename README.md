@@ -1,5 +1,4 @@
 # blackfire.io - php7.0-fpm
-===========================
 
 
 In the repository there is a Dockerfile for a php7.0-fpm + blackfire Image.
